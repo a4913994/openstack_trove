@@ -12,7 +12,10 @@
 #    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #    License for the specific language governing permissions and limitations
 #    under the License.
+import os
+import re
 import sys
+import subprocess
 
 from oslo_config import cfg as openstack_cfg
 from oslo_log import log as logging
@@ -48,6 +51,8 @@ def main():
     logging.setup(CONF, None)
     debug_utils.setup()
 
+    get_docker_ca()
+
     from trove.guestagent import dbaas
     manager = dbaas.datastore_registry().get(CONF.datastore_manager)
     if not manager:
@@ -57,7 +62,7 @@ def main():
 
     if not CONF.guest_id:
         msg = (_("The guest_id parameter is not set. guest_info.conf "
-               "was not injected into the guest or not read by guestagent"))
+                 "was not injected into the guest or not read by guestagent"))
         raise RuntimeError(msg)
 
     # Create user and group for running docker container.
@@ -95,3 +100,35 @@ def main():
 
     launcher = openstack_service.launch(CONF, server, restart_method='mutate')
     launcher.wait()
+
+
+def get_docker_ca():
+    # 1. 获取docker仓库地址，然后下载证书
+    container_registry = CONF.guest_agent.container_registry
+    ip = re.findall(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", container_registry)[0]
+    files = ['%s.cert' % ip, '%s.key' % ip, 'ca.crt']
+    path = '/etc/docker/certs.d/%s/' % ip
+    if not os.path.exists(path):
+        cmd = 'sudo mkdir -p %s' % path
+        start_proc(cmd, shell=True)
+    # 2. 获取文件
+    for file in files:
+        cmd = 'cd /etc/docker/certs.d/{ip}/; sudo bash -c "curl http://{ip}:10001/{file} > /etc/docker/certs.d/{ip}/{file}"'.format(
+            ip=ip, file=file)
+        start_proc(cmd, shell=True)
+    start_proc('systemctl restart docker', shell=True)
+
+
+def start_proc(cmd, shell=False):
+    """Given a command, starts and returns a process."""
+    env = os.environ.copy()
+    proc = subprocess.Popen(
+        cmd,
+        shell=shell,
+        stdin=subprocess.PIPE,
+        bufsize=0,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        env=env
+    )
+    return proc
