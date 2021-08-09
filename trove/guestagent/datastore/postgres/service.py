@@ -15,6 +15,7 @@ from collections import OrderedDict
 
 from oslo_log import log as logging
 import psycopg2
+from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 from trove.common import cfg
 from trove.common import exception
@@ -772,6 +773,7 @@ class PostgresConnection(object):
         cmd = self._bind(statement, identifiers)
         with psycopg2.connect(self.connect_str) as connection:
             connection.autocommit = autocommit
+            connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
             with connection.cursor() as cursor:
                 cursor.execute(cmd, data_values)
                 if fetch:
