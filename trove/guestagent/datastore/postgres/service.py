@@ -224,8 +224,8 @@ class PgSqlApp(service.BaseDbApp):
             raise exception.TroveError("Failed to start database service")
 
         if not self.status.wait_for_status(
-            service_status.ServiceStatuses.HEALTHY,
-            CONF.state_change_wait_time, update_db
+                service_status.ServiceStatuses.HEALTHY,
+                CONF.state_change_wait_time, update_db
         ):
             raise exception.TroveError("Failed to start database service")
 
@@ -246,8 +246,8 @@ class PgSqlApp(service.BaseDbApp):
             raise exception.TroveError("Failed to restart database")
 
         if not self.status.wait_for_status(
-            service_status.ServiceStatuses.HEALTHY,
-            CONF.state_change_wait_time, update_db=True
+                service_status.ServiceStatuses.HEALTHY,
+                CONF.state_change_wait_time, update_db=True
         ):
             raise exception.TroveError("Failed to start database")
 
@@ -771,13 +771,17 @@ class PostgresConnection(object):
     def _execute_stmt(self, statement, identifiers, data_values, fetch,
                       autocommit=False):
         cmd = self._bind(statement, identifiers)
-        with psycopg2.connect(self.connect_str) as connection:
-            connection.autocommit = autocommit
-            connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-            with connection.cursor() as cursor:
+        conn = None
+        try:
+            conn = psycopg2.connect(self.connect_str)
+            conn.autocommit = autocommit
+            with conn.cursor() as cursor:
                 cursor.execute(cmd, data_values)
                 if fetch:
                     return cursor.fetchall()
+        finally:
+            if conn:
+                conn.close()
 
     def _bind(self, statement, identifiers):
         if identifiers:
