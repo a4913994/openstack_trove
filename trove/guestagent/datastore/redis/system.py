@@ -19,9 +19,12 @@ Determines operating system version and OS dependent commands.
 """
 
 from trove.guestagent.common.operating_system import get_os
+from trove.common import cfg
+
+CONF = cfg.CONF
 
 
-REDIS_OWNER = 'redis'
+REDIS_OWNER = CONF.database_service_uid
 REDIS_CONFIG = '/etc/redis/redis.conf'
 REDIS_PID_FILE = '/var/run/redis/redis-server.pid'
 REDIS_LOG_FILE = '/var/log/redis/server.log'

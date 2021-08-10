@@ -43,7 +43,7 @@ class RedisManager(manager.Manager):
         return {
             self.GUEST_LOG_DEFS_REDIS_LABEL: {
                 self.GUEST_LOG_TYPE_LABEL: guest_log.LogType.SYS,
-                self.GUEST_LOG_USER_LABEL: system.REDIS_OWNER,
+                self.GUEST_LOG_USER_LABEL: CONF.database_service_uid,
                 self.GUEST_LOG_FILE_LABEL: logfile
             }
         }
@@ -51,15 +51,13 @@ class RedisManager(manager.Manager):
     def do_prepare(self, context, packages, databases, memory_mb, users, device_path, mount_point, backup_info,
                    config_contents, root_password, overrides, cluster_config, snapshot, ds_version=None):
         """This is called from prepare in the base class."""
-        operating_system.create_user(system.REDIS_OWNER, system.REDIS_OWNER)
-
         operating_system.ensure_directory(system.REDIS_DATA_DIR,
-                                          user=system.REDIS_OWNER,
-                                          group=system.REDIS_OWNER,
+                                          user=CONF.database_service_uid,
+                                          group=CONF.database_service_uid,
                                           as_root=True)
         operating_system.ensure_directory('/etc/redis',
-                                          user=system.REDIS_OWNER,
-                                          group=system.REDIS_OWNER,
+                                          user=CONF.database_service_uid,
+                                          group=CONF.database_service_uid,
                                           as_root=True)
 
         LOG.info('Writing redis configuration.')
@@ -75,7 +73,7 @@ class RedisManager(manager.Manager):
                 signal_file = f"{system.REDIS_DATA_DIR}/recovery.signal"
                 operating_system.execute_shell_cmd(
                     f"touch {signal_file}", [], shell=True, as_root=True)
-                operating_system.chown(signal_file, system.REDIS_OWNER, system.REDIS_OWNER, force=True, as_root=True)
+                operating_system.chown(signal_file, CONF.database_service_uid, CONF.database_service_uid, force=True, as_root=True)
 
         if snapshot:
             self.attach_replica(context, snapshot, snapshot['config'])
