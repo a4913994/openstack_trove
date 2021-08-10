@@ -28,6 +28,7 @@ REDIS_OWNER = CONF.database_service_uid
 REDIS_CONFIG = '/etc/redis/redis.conf'
 REDIS_PID_FILE = '/var/run/redis/redis-server.pid'
 REDIS_LOG_FILE = '/var/log/redis/server.log'
+REDIS_LOG_DIR = '/var/log/redis/'
 REDIS_CONF_DIR = '/etc/redis'
 REDIS_DATA_DIR = '/var/lib/redis'
 REDIS_PORT = '6379'

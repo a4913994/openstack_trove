@@ -265,6 +265,9 @@ class RedisApp(service.BaseDbApp):
             redis_pass = self.get_auth_password()
         except exception.UnprocessableEntity:
             redis_pass = utils.generate_random_password()
+
+        command += ' --requirepass %s' % redis_pass
+
         # Get uid and gid
         user = "%s:%s" % (system.REDIS_OWNER, system.REDIS_OWNER)
         # Create folders for redis on localhost
@@ -278,6 +281,7 @@ class RedisApp(service.BaseDbApp):
             "/var/run/redis": {"bind": "/var/run/redis", "mode": "rw"},
             "/var/lib/redis": {"bind": "/var/lib/redis", "mode": "rw"},
             "/var/lib/redis/data": {"bind": "/var/lib/redis/data", "mode": "rw"},
+            "/var/log/redis": {"bind": "/var/log/redis", "mode": "rw"}
         }
         if extra_volumes:
             volumes.update(extra_volumes)
@@ -532,7 +536,7 @@ class RedisApp(service.BaseDbApp):
             admin = self.build_admin_client()
             self.configuration_manager.remove_system_override(
                 change_id=SYS_OVERRIDES_AUTH)
-            self.apply_overrides(admin,{'requirepass': '', 'masterauth': ''})
+            self.apply_overrides(admin, {'requirepass': '', 'masterauth': ''})
         except exception.TroveError:
             LOG.exception('Error disabling authentication for instance.')
             raise

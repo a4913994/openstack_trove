@@ -23,8 +23,9 @@ class RedisManager(manager.Manager):
     def __init__(self):
         super(RedisManager, self).__init__('redis')
         self.status = service.RedisAppStatus(self.docker_client)
+        self.adm = self.app.build_admin_client()
+        self.status.set_client(self.adm)
         self.app = service.RedisApp(self.status, self.docker_client)
-        # self.adm = self.app.build_admin_client()
 
     def _refresh_admin_client(self):
         self.admin = self.app.build_admin_client()
@@ -51,6 +52,10 @@ class RedisManager(manager.Manager):
     def do_prepare(self, context, packages, databases, memory_mb, users, device_path, mount_point, backup_info,
                    config_contents, root_password, overrides, cluster_config, snapshot, ds_version=None):
         """This is called from prepare in the base class."""
+        operating_system.ensure_directory(system.REDIS_LOG_DIR,
+                                          user=CONF.database_service_uid,
+                                          group=CONF.database_service_uid,
+                                          as_root=True)
         operating_system.ensure_directory(system.REDIS_DATA_DIR,
                                           user=CONF.database_service_uid,
                                           group=CONF.database_service_uid,
