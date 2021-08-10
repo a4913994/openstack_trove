@@ -23,8 +23,8 @@ class RedisManager(manager.Manager):
     def __init__(self):
         super(RedisManager, self).__init__('redis')
         self.status = service.RedisAppStatus(self.docker_client)
-        self.app = service.RedisApp(self.status)
-        self.adm = service.RedisAdmin()
+        self.app = service.RedisApp(self.status, self.docker_client)
+        # self.adm = self.app.build_admin_client()
 
     def _refresh_admin_client(self):
         self.admin = self.app.build_admin_client()
@@ -73,7 +73,8 @@ class RedisManager(manager.Manager):
                 signal_file = f"{system.REDIS_DATA_DIR}/recovery.signal"
                 operating_system.execute_shell_cmd(
                     f"touch {signal_file}", [], shell=True, as_root=True)
-                operating_system.chown(signal_file, CONF.database_service_uid, CONF.database_service_uid, force=True, as_root=True)
+                operating_system.chown(signal_file, CONF.database_service_uid, CONF.database_service_uid, force=True,
+                                       as_root=True)
 
         if snapshot:
             self.attach_replica(context, snapshot, snapshot['config'])
