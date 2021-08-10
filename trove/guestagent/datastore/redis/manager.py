@@ -23,8 +23,6 @@ class RedisManager(manager.Manager):
     def __init__(self):
         super(RedisManager, self).__init__('redis')
         self.status = service.RedisAppStatus(self.docker_client)
-        self.adm = self.app.build_admin_client()
-        self.status.set_client(self.adm)
         self.app = service.RedisApp(self.status, self.docker_client)
 
     def _refresh_admin_client(self):
@@ -72,6 +70,9 @@ class RedisManager(manager.Manager):
                                + "cluster-config-file cluster.conf\n")
         self.app.configuration_manager.reset_configuration(config_contents)
         self.app.apply_initial_guestagent_configuration()
+        self.adm = self.app.build_admin_client()
+        self.status.set_client(self.adm)
+        
         if backup_info:
             self.perform_restore(context, system.REDIS_DATA_DIR, backup_info)
             if not snapshot:
