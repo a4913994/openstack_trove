@@ -200,7 +200,7 @@ class MySqlManager(manager.Manager):
         LOG.info('Starting to reset password for restore')
 
         try:
-            root_pass = self.app.get_auth_password(file="root.cnf")
+            root_pass = self.app.get_auth_password()
         except exception.UnprocessableEntity:
             root_pass = utils.generate_random_password()
             self.app.save_password('root', root_pass)

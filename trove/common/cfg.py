@@ -244,16 +244,16 @@ common_opts = [
                help='Message queue name the Conductor will listen on.'),
     cfg.IntOpt('trove_conductor_workers',
                help='Number of workers for the Conductor service. The default '
-               'will be the number of CPUs available.'),
+                    'will be the number of CPUs available.'),
     cfg.BoolOpt('use_nova_server_config_drive', default=True,
                 help='Use config drive for file injection when booting '
-                'instance.'),
+                     'instance.'),
     cfg.StrOpt('device_path', default='/dev/vdb',
                help='Device path for volume if volume support is enabled.'),
     cfg.StrOpt('default_datastore', default=None,
                help='The default datastore id or name to use if one is not '
-               'provided by the user. If the default value is None, the field '
-               'becomes required in the instance create request.'),
+                    'provided by the user. If the default value is None, the field '
+                    'becomes required in the instance create request.'),
     cfg.StrOpt('datastore_manager', default=None,
                help='Manager class in the Guest Agent, set up by the '
                     'Taskmanager on instance provision.'),
@@ -303,7 +303,7 @@ common_opts = [
                help='CIDR to use when creating Security Group Rules.'),
     cfg.IntOpt('trove_api_workers',
                help='Number of workers for the API service. The default will '
-               'be the number of CPUs available.'),
+                    'be the number of CPUs available.'),
     cfg.IntOpt('usage_sleep_time', default=5,
                help='Time to sleep during the check for an active Guest.'),
     cfg.StrOpt('region', default='LOCAL_DEV',
@@ -317,12 +317,12 @@ common_opts = [
                 deprecated_for_removal=True),
     cfg.BoolOpt('verify_swift_checksum_on_restore', default=True,
                 help='Enable verification of Swift checksum before starting '
-                'restore. Makes sure the checksum of original backup matches '
-                'the checksum of the Swift backup file.'),
+                     'restore. Makes sure the checksum of original backup matches '
+                     'the checksum of the Swift backup file.'),
     cfg.BoolOpt('verify_replica_volume_size', default=True,
                 help='Require the replica volume size to be greater than '
-                'or equal to the size of the master volume '
-                'during replica creation.'),
+                     'or equal to the size of the master volume '
+                     'during replica creation.'),
     cfg.StrOpt('storage_strategy', default='swift',
                help="Default strategy to store backups."),
     cfg.StrOpt('storage_namespace',
@@ -364,13 +364,13 @@ common_opts = [
     ),
     cfg.IntOpt('backup_chunk_size', default=2 ** 16,
                help='Chunk size (in bytes) to stream to the Swift container. '
-               'This should be in multiples of 128 bytes, since this is the '
-               'size of an md5 digest block allowing the process to update '
-               'the file checksum during streaming. '
-               'See: http://stackoverflow.com/questions/1131220/'),
+                    'This should be in multiples of 128 bytes, since this is the '
+                    'size of an md5 digest block allowing the process to update '
+                    'the file checksum during streaming. '
+                    'See: http://stackoverflow.com/questions/1131220/'),
     cfg.IntOpt('backup_segment_max_size', default=2 * (1024 ** 3),
                help='Maximum size (in bytes) of each segment of the backup '
-               'file.'),
+                    'file.'),
     cfg.StrOpt('remote_dns_client',
                default='trove.common.clients.dns_client',
                help='Client to send DNS calls to.'),
@@ -520,7 +520,6 @@ common_opts = [
              'instance'),
 ]
 
-
 database_opts = [
     cfg.StrOpt('connection',
                default='sqlite:///trove_test.sqlite',
@@ -577,7 +576,6 @@ database_opts = [
                     'SQLAlchemy.'),
 ]
 
-
 # Datastore specific option groups
 
 # Mysql
@@ -610,9 +608,9 @@ mysql_opts = [
                     "volumes if volume support is enabled."),
     cfg.BoolOpt('root_on_create', default=False,
                 help='Enable the automatic creation of the root user for the '
-                'service during instance-create. The generated password for '
-                'the root user is immediately returned in the response of '
-                "instance-create as the 'password' field."),
+                     'service during instance-create. The generated password for '
+                     'the root user is immediately returned in the response of '
+                     "instance-create as the 'password' field."),
     cfg.IntOpt('usage_timeout', default=400,
                help='Maximum time (in seconds) to wait for a Guest to become '
                     'active.'),
@@ -640,7 +638,7 @@ mysql_opts = [
                     'in order to be logged in the slow_query log.',
                deprecated_for_removal=True,
                deprecated_reason='Will be replaced by a configuration group '
-               'option: long_query_time'),
+                                 'option: long_query_time'),
     cfg.IntOpt('default_password_length', default=36,
                help='Character length of generated passwords.',
                deprecated_name='default_password_length',
@@ -691,9 +689,9 @@ percona_opts = [
                     "volumes if volume support is enabled."),
     cfg.BoolOpt('root_on_create', default=False,
                 help='Enable the automatic creation of the root user for the '
-                'service during instance-create. The generated password for '
-                'the root user is immediately returned in the response of '
-                "instance-create as the 'password' field."),
+                     'service during instance-create. The generated password for '
+                     'the root user is immediately returned in the response of '
+                     "instance-create as the 'password' field."),
     cfg.IntOpt('usage_timeout', default=450,
                help='Maximum time (in seconds) to wait for a Guest to become '
                     'active.'),
@@ -720,7 +718,7 @@ percona_opts = [
                     'in order to be logged in the slow_query log.',
                deprecated_for_removal=True,
                deprecated_reason='Will be replaced by a configuration group '
-               'option: long_query_time'),
+                                 'option: long_query_time'),
     cfg.IntOpt('default_password_length',
                default='${mysql.default_password_length}',
                help='Character length of generated passwords.',
@@ -759,9 +757,9 @@ pxc_opts = [
                     "volumes if volume support is enabled."),
     cfg.BoolOpt('root_on_create', default=False,
                 help='Enable the automatic creation of the root user for the '
-                'service during instance-create. The generated password for '
-                'the root user is immediately returned in the response of '
-                "instance-create as the 'password' field."),
+                     'service during instance-create. The generated password for '
+                     'the root user is immediately returned in the response of '
+                     "instance-create as the 'password' field."),
     cfg.IntOpt('usage_timeout', default=450,
                help='Maximum time (in seconds) to wait for a Guest to become '
                     'active.'),
@@ -780,16 +778,16 @@ pxc_opts = [
                help='Minimum number of members in PXC cluster.'),
     cfg.StrOpt('api_strategy',
                default='trove.common.strategies.cluster.experimental.'
-               'galera_common.api.GaleraCommonAPIStrategy',
+                       'galera_common.api.GaleraCommonAPIStrategy',
                help='Class that implements datastore-specific API logic.'),
     cfg.StrOpt('taskmanager_strategy',
                default='trove.common.strategies.cluster.experimental.'
-               'galera_common.taskmanager.GaleraCommonTaskManagerStrategy',
+                       'galera_common.taskmanager.GaleraCommonTaskManagerStrategy',
                help='Class that implements datastore-specific task manager '
                     'logic.'),
     cfg.StrOpt('guestagent_strategy',
                default='trove.common.strategies.cluster.experimental.'
-               'galera_common.guestagent.GaleraCommonGuestAgentStrategy',
+                       'galera_common.guestagent.GaleraCommonGuestAgentStrategy',
                help='Class that implements datastore-specific Guest Agent API '
                     'logic.'),
     cfg.StrOpt('root_controller',
@@ -802,7 +800,7 @@ pxc_opts = [
                     'in order to be logged in the slow_query log.',
                deprecated_for_removal=True,
                deprecated_reason='Will be replaced by a configuration group '
-               'option: long_query_time'),
+                                 'option: long_query_time'),
     cfg.IntOpt('default_password_length',
                default='${mysql.default_password_length}',
                help='Character length of generated passwords.',
@@ -810,12 +808,20 @@ pxc_opts = [
                deprecated_group='DEFAULT'),
 ]
 
-
 # Redis
 redis_group = cfg.OptGroup(
     'redis', title='Redis options',
     help="Oslo option group designed for Redis datastore")
 redis_opts = [
+    cfg.StrOpt(
+        'docker_image', default='redis',
+        help='Database docker image.'
+    ),
+    cfg.StrOpt(
+        'backup_docker_image',
+        default='openstacktrove/db-backup-redis:1.1.2',
+        help='The docker image used for backup and restore.'
+    ),
     cfg.BoolOpt('icmp', default=False,
                 help='Whether to permit ICMP.',
                 deprecated_for_removal=True),
@@ -840,7 +846,7 @@ redis_opts = [
                help='Namespace to load replication strategies from.'),
     cfg.StrOpt('mount_point', default='/var/lib/redis',
                help="Filesystem path for mounting "
-               "volumes if volume support is enabled."),
+                    "volumes if volume support is enabled."),
     cfg.BoolOpt('volume_support', default=True,
                 help='Whether to provision a Cinder volume for datadir.'),
     cfg.StrOpt('device_path', default='/dev/vdb',
@@ -849,16 +855,16 @@ redis_opts = [
                 help='Enable clusters to be created and managed.'),
     cfg.StrOpt('api_strategy',
                default='trove.common.strategies.cluster.experimental.'
-               'redis.api.RedisAPIStrategy',
+                       'redis.api.RedisAPIStrategy',
                help='Class that implements datastore-specific API logic.'),
     cfg.StrOpt('taskmanager_strategy',
                default='trove.common.strategies.cluster.experimental.redis.'
-               'taskmanager.RedisTaskManagerStrategy',
+                       'taskmanager.RedisTaskManagerStrategy',
                help='Class that implements datastore-specific task manager '
                     'logic.'),
     cfg.StrOpt('guestagent_strategy',
                default='trove.common.strategies.cluster.experimental.'
-               'redis.guestagent.RedisGuestAgentStrategy',
+                       'redis.guestagent.RedisGuestAgentStrategy',
                help='Class that implements datastore-specific Guest Agent API '
                     'logic.'),
     cfg.StrOpt('root_controller',
@@ -897,7 +903,7 @@ cassandra_opts = [
                help='Default strategy for replication.'),
     cfg.StrOpt('mount_point', default='/var/lib/cassandra',
                help="Filesystem path for mounting "
-               "volumes if volume support is enabled."),
+                    "volumes if volume support is enabled."),
     cfg.BoolOpt('volume_support', default=True,
                 help='Whether to provision a Cinder volume for datadir.'),
     cfg.StrOpt('device_path', default='/dev/vdb',
@@ -920,16 +926,16 @@ cassandra_opts = [
                 help='Enable clusters to be created and managed.'),
     cfg.StrOpt('api_strategy',
                default='trove.common.strategies.cluster.experimental.'
-               'cassandra.api.CassandraAPIStrategy',
+                       'cassandra.api.CassandraAPIStrategy',
                help='Class that implements datastore-specific API logic.'),
     cfg.StrOpt('taskmanager_strategy',
                default='trove.common.strategies.cluster.experimental'
-               '.cassandra.taskmanager.CassandraTaskManagerStrategy',
+                       '.cassandra.taskmanager.CassandraTaskManagerStrategy',
                help='Class that implements datastore-specific task manager '
                     'logic.'),
     cfg.StrOpt('guestagent_strategy',
                default='trove.common.strategies.cluster.experimental'
-               '.cassandra.guestagent.CassandraGuestAgentStrategy',
+                       '.cassandra.guestagent.CassandraGuestAgentStrategy',
                help='Class that implements datastore-specific Guest Agent API '
                     'logic.'),
     cfg.IntOpt('default_password_length', default=36,
@@ -943,19 +949,19 @@ cassandra_opts = [
                 help='Enable the saslauth daemon.'),
     cfg.StrOpt('user_controller',
                default='trove.extensions.cassandra.service.'
-               'CassandraUserController',
+                       'CassandraUserController',
                help='User controller implementation.'),
     cfg.StrOpt('database_controller',
                default='trove.extensions.cassandra.service.'
-               'CassandraDatabaseController',
+                       'CassandraDatabaseController',
                help='Database controller implementation.'),
     cfg.StrOpt('user_access_controller',
                default='trove.extensions.cassandra.service.'
-               'CassandraUserAccessController',
+                       'CassandraUserAccessController',
                help='User access controller implementation.'),
     cfg.IntOpt('node_sync_time', default=60,
                help='Time (in seconds) given to a node after a state change '
-               'to finish rejoining the cluster.'),
+                    'to finish rejoining the cluster.'),
 ]
 
 # Couchbase
@@ -984,12 +990,12 @@ couchbase_opts = [
                help='Default strategy for replication.'),
     cfg.StrOpt('mount_point', default='/var/lib/couchbase',
                help="Filesystem path for mounting "
-               "volumes if volume support is enabled."),
+                    "volumes if volume support is enabled."),
     cfg.BoolOpt('root_on_create', default=False,
                 help='Enable the automatic creation of the root user for the '
-                'service during instance-create. The generated password for '
-                'the root user is immediately returned in the response of '
-                "instance-create as the 'password' field."),
+                     'service during instance-create. The generated password for '
+                     'the root user is immediately returned in the response of '
+                     "instance-create as the 'password' field."),
     cfg.BoolOpt('volume_support', default=True,
                 help='Whether to provision a Cinder volume for datadir.'),
     cfg.StrOpt('device_path', default='/dev/vdb',
@@ -1030,7 +1036,7 @@ mongodb_opts = [
                help='Default strategy for replication.'),
     cfg.StrOpt('mount_point', default='/var/lib/mongodb',
                help="Filesystem path for mounting "
-               "volumes if volume support is enabled."),
+                    "volumes if volume support is enabled."),
     cfg.BoolOpt('volume_support', default=True,
                 help='Whether to provision a Cinder volume for datadir.'),
     cfg.StrOpt('device_path', default='/dev/vdb',
@@ -1051,16 +1057,16 @@ mongodb_opts = [
                      'Role-Based Access Control will be disabled.'),
     cfg.StrOpt('api_strategy',
                default='trove.common.strategies.cluster.experimental.'
-               'mongodb.api.MongoDbAPIStrategy',
+                       'mongodb.api.MongoDbAPIStrategy',
                help='Class that implements datastore-specific API logic.'),
     cfg.StrOpt('taskmanager_strategy',
                default='trove.common.strategies.cluster.experimental.mongodb.'
-               'taskmanager.MongoDbTaskManagerStrategy',
+                       'taskmanager.MongoDbTaskManagerStrategy',
                help='Class that implements datastore-specific task manager '
                     'logic.'),
     cfg.StrOpt('guestagent_strategy',
                default='trove.common.strategies.cluster.experimental.'
-               'mongodb.guestagent.MongoDbGuestAgentStrategy',
+                       'mongodb.guestagent.MongoDbGuestAgentStrategy',
                help='Class that implements datastore-specific Guest Agent API '
                     'logic.'),
     cfg.PortOpt('mongodb_port', default=27017,
@@ -1132,7 +1138,7 @@ postgresql_opts = [
     ),
     cfg.StrOpt('mount_point', default='/var/lib/postgresql',
                help="Filesystem path for mounting "
-               "volumes if volume support is enabled."),
+                    "volumes if volume support is enabled."),
     cfg.StrOpt('wal_archive_location', default='/mnt/wal_archive',
                help="Filesystem path storing WAL archive files when "
                     "WAL-shipping based backups or replication "
@@ -1143,9 +1149,9 @@ postgresql_opts = [
                ),
     cfg.BoolOpt('root_on_create', default=False,
                 help='Enable the automatic creation of the root user for the '
-                'service during instance-create. The generated password for '
-                'the root user is immediately returned in the response of '
-                "instance-create as the 'password' field."),
+                     'service during instance-create. The generated password for '
+                     'the root user is immediately returned in the response of '
+                     "instance-create as the 'password' field."),
     cfg.BoolOpt('volume_support', default=True,
                 help='Whether to provision a Cinder volume for datadir.'),
     cfg.StrOpt('device_path', default='/dev/vdb'),
@@ -1189,7 +1195,7 @@ couchdb_opts = [
                      'if trove_security_groups_support is True).'),
     cfg.StrOpt('mount_point', default='/var/lib/couchdb',
                help="Filesystem path for mounting "
-               "volumes if volume support is enabled."),
+                    "volumes if volume support is enabled."),
     cfg.BoolOpt('volume_support', default=True,
                 help='Whether to provision a Cinder volume for datadir.'),
     cfg.StrOpt('device_path', default='/dev/vdb',
@@ -1200,9 +1206,9 @@ couchdb_opts = [
                help='Default strategy for replication.'),
     cfg.BoolOpt('root_on_create', default=False,
                 help='Enable the automatic creation of the root user for the '
-                'service during instance-create. The generated password for '
-                'the root user is immediately returned in the response of '
-                'instance-create as the "password" field.'),
+                     'service during instance-create. The generated password for '
+                     'the root user is immediately returned in the response of '
+                     'instance-create as the "password" field.'),
     cfg.StrOpt('root_controller',
                default='trove.extensions.common.service.DefaultRootController',
                help='Root controller implementation for couchdb.'),
@@ -1247,7 +1253,7 @@ vertica_opts = [
                help='Default strategy for replication.'),
     cfg.StrOpt('mount_point', default='/var/lib/vertica',
                help="Filesystem path for mounting "
-               "volumes if volume support is enabled."),
+                    "volumes if volume support is enabled."),
     cfg.BoolOpt('volume_support', default=True,
                 help='Whether to provision a Cinder volume for datadir.'),
     cfg.StrOpt('device_path', default='/dev/vdb',
@@ -1303,15 +1309,15 @@ db2_opts = [
     cfg.ListOpt('tcp_ports',
                 default=["50000"], item_type=ListOfPortsType,
                 help='List of TCP ports and/or port ranges to open '
-                'in the security group (only applicable '
-                'if trove_security_groups_support is True).'),
+                     'in the security group (only applicable '
+                     'if trove_security_groups_support is True).'),
     cfg.ListOpt('udp_ports', default=[], item_type=ListOfPortsType,
                 help='List of UDP ports and/or port ranges to open '
-                'in the security group (only applicable '
-                'if trove_security_groups_support is True).'),
+                     'in the security group (only applicable '
+                     'if trove_security_groups_support is True).'),
     cfg.StrOpt('mount_point', default="/home/db2inst1/db2inst1",
                help="Filesystem path for mounting "
-               "volumes if volume support is enabled."),
+                    "volumes if volume support is enabled."),
     cfg.BoolOpt('volume_support', default=True,
                 help='Whether to provision a Cinder volume for datadir.'),
     cfg.StrOpt('device_path', default='/dev/vdb',
@@ -1322,9 +1328,9 @@ db2_opts = [
                help='Default strategy for replication.'),
     cfg.BoolOpt('root_on_create', default=False,
                 help='Enable the automatic creation of the root user for the '
-                'service during instance-create. The generated password for '
-                'the root user is immediately returned in the response of '
-                "instance-create as the 'password' field."),
+                     'service during instance-create. The generated password for '
+                     'the root user is immediately returned in the response of '
+                     "instance-create as the 'password' field."),
     cfg.ListOpt('ignore_users', default=['PUBLIC', 'DB2INST1']),
     cfg.StrOpt('root_controller',
                default='trove.extensions.common.service.DefaultRootController',
@@ -1368,9 +1374,9 @@ mariadb_opts = [
                     "volumes if volume support is enabled."),
     cfg.BoolOpt('root_on_create', default=False,
                 help='Enable the automatic creation of the root user for the '
-                'service during instance-create. The generated password for '
-                'the root user is immediately returned in the response of '
-                "instance-create as the 'password' field."),
+                     'service during instance-create. The generated password for '
+                     'the root user is immediately returned in the response of '
+                     "instance-create as the 'password' field."),
     cfg.IntOpt('usage_timeout', default=400,
                help='Maximum time (in seconds) to wait for a Guest to become '
                     'active.'),
@@ -1397,23 +1403,23 @@ mariadb_opts = [
                     'in order to be logged in the slow_query log.',
                deprecated_for_removal=True,
                deprecated_reason='Will be replaced by a configuration group '
-               'option: long_query_time'),
+                                 'option: long_query_time'),
     cfg.BoolOpt('cluster_support', default=True,
                 help='Enable clusters to be created and managed.'),
     cfg.IntOpt('min_cluster_member_count', default=3,
                help='Minimum number of members in MariaDB cluster.'),
     cfg.StrOpt('api_strategy',
                default='trove.common.strategies.cluster.experimental.'
-               'galera_common.api.GaleraCommonAPIStrategy',
+                       'galera_common.api.GaleraCommonAPIStrategy',
                help='Class that implements datastore-specific API logic.'),
     cfg.StrOpt('taskmanager_strategy',
                default='trove.common.strategies.cluster.experimental.'
-               'galera_common.taskmanager.GaleraCommonTaskManagerStrategy',
+                       'galera_common.taskmanager.GaleraCommonTaskManagerStrategy',
                help='Class that implements datastore-specific task manager '
                     'logic.'),
     cfg.StrOpt('guestagent_strategy',
                default='trove.common.strategies.cluster.experimental.'
-               'galera_common.guestagent.GaleraCommonGuestAgentStrategy',
+                       'galera_common.guestagent.GaleraCommonGuestAgentStrategy',
                help='Class that implements datastore-specific Guest Agent API '
                     'logic.'),
     cfg.IntOpt('default_password_length',
@@ -1437,7 +1443,7 @@ upgrade_levels = cfg.OptGroup(
     'upgrade_levels',
     title='RPC upgrade levels group for handling versions',
     help='Contains the support version caps (Openstack Release) for '
-    'each RPC API')
+         'each RPC API')
 
 rpcapi_cap_opts = [
     cfg.StrOpt(

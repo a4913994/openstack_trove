@@ -114,8 +114,7 @@ class ResizeTests(ResizeTestBase):
         datastore.manager = 'mysql'
         config = template.SingleInstanceConfigTemplate(
             datastore, NEW_FLAVOR.__dict__, self.instance.id)
-        self.instance.guest.start_db_with_conf_changes(config.render(),
-                                                       datastore.name)
+        self.instance.guest.start_db_with_conf_changes(config.render(), )
 
     def test_guest_wont_stop_mysql(self):
         self.guest.stop_db.side_effect = RPCException("Could not stop MySQL!")

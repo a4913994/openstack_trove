@@ -2037,9 +2037,7 @@ class ResizeAction(ResizeActionBase):
 
     def _start_datastore(self):
         config = self.instance._render_config(self.new_flavor)
-        self.instance.guest.start_db_with_conf_changes(
-            config.config_contents,
-            self.instance.datastore_version.name)
+        self.instance.guest.start_db_with_conf_changes(config.config_contents, )
 
 
 class MigrateAction(ResizeActionBase):
