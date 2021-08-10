@@ -80,7 +80,7 @@ class RedisManager(manager.Manager):
             self.attach_replica(context, snapshot, snapshot['config'])
 
         # config_file can only be set on the postgres command line
-        command = f"redis -c config_file={system.REDIS_CONFIG}"
+        command = f"redis-server {system.REDIS_CONFIG}"
         self.app.start_db(ds_version=ds_version, command=command)
         self.app.admin = self.app.build_admin_client()
 
