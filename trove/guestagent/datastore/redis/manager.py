@@ -65,7 +65,7 @@ class RedisManager(manager.Manager):
             config_contents = (config_contents + "\n"
                                + "cluster-enabled yes\n"
                                + "cluster-config-file cluster.conf\n")
-        self.app.configuration_manager.save_configuration(config_contents)
+        self.app.configuration_manager.reset_configuration(config_contents)
         self.app.apply_initial_guestagent_configuration()
         if backup_info:
             self.perform_restore(context, system.REDIS_DATA_DIR, backup_info)
@@ -81,6 +81,7 @@ class RedisManager(manager.Manager):
         # config_file can only be set on the postgres command line
         command = f"redis -c config_file={system.REDIS_CONFIG}"
         self.app.start_db(ds_version=ds_version, command=command)
+        self.app.admin = self.app.build_admin_client()
 
     def pre_upgrade(self, context):
         mount_point = system.REDIS_DATA_DIR
@@ -103,5 +104,3 @@ class RedisManager(manager.Manager):
             'save_etc_dir': save_etc_dir,
             'home_save': home_save
         }
-
-

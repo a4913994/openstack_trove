@@ -120,7 +120,7 @@ class RedisApp(service.BaseDbApp):
             ), requires_root=True,
             override_strategy=OneFileOverrideStrategy(revision_dir))
 
-        self.admin = self.build_admin_client()
+        # self.admin = self.build_admin_client()
 
     def restart(self):
         LOG.info("Restarting database")
@@ -184,9 +184,9 @@ class RedisApp(service.BaseDbApp):
             system.SERVICE_CANDIDATES, CONF.state_change_wait_time,
             disable_on_boot=do_not_start_on_reboot, update_db=update_db)
 
-    def restart(self):
-        self.status.restart_db_service(
-            system.SERVICE_CANDIDATES, CONF.state_change_wait_time)
+    # def restart(self):
+    #     self.status.restart_db_service(
+    #         system.SERVICE_CANDIDATES, CONF.state_change_wait_time)
 
     def update_overrides(self, context, overrides, remove=False):
         if overrides:

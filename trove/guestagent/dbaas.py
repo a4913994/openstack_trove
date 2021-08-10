@@ -45,7 +45,7 @@ defaults = {
     'pxc':
         'trove.guestagent.datastore.experimental.pxc.manager.Manager',
     'redis':
-        'trove.guestagent.datastore.redis.manager.PostgresManager',
+        'trove.guestagent.datastore.redis.manager.RedisManager',
     'cassandra':
         'trove.guestagent.datastore.experimental.cassandra.manager.Manager',
     'couchbase':
