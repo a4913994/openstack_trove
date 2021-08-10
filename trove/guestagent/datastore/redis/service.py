@@ -189,6 +189,7 @@ class RedisApp(service.BaseDbApp):
     #         system.SERVICE_CANDIDATES, CONF.state_change_wait_time)
 
     def update_overrides(self, context, overrides, remove=False):
+        admin = self.build_admin_client()
         if overrides:
             self.configuration_manager.apply_user_override(overrides)
             # apply requirepass at runtime
@@ -196,7 +197,7 @@ class RedisApp(service.BaseDbApp):
             # in the future releases, Redis only use enable_root/disable_root
             # to set this parameter.
             if 'requirepass' in overrides:
-                self.admin.config_set('requirepass', overrides['requirepass'])
+                admin.config_set('requirepass', overrides['requirepass'])
                 self._refresh_admin_client()
 
     def apply_overrides(self, client, overrides):
@@ -321,7 +322,8 @@ class RedisApp(service.BaseDbApp):
         """
 
         # Hide the 'CONFIG' command from end users by mangling its name.
-        self.admin.set_config_command_name(self._mangle_config_command_name())
+        admin = self.build_admin_client()
+        admin.set_config_command_name(self._mangle_config_command_name())
 
         self.configuration_manager.apply_system_override(
             {'daemonize': 'yes',
@@ -515,11 +517,11 @@ class RedisApp(service.BaseDbApp):
             password = utils.generate_random_password()
         redis_password = RedisRootUser(password=password)
         try:
+            admin = self.build_admin_client()
             self.configuration_manager.apply_system_override(
                 {'requirepass': password, 'masterauth': password},
                 change_id=SYS_OVERRIDES_AUTH)
-            self.apply_overrides(
-                self.admin, {'requirepass': password, 'masterauth': password})
+            self.apply_overrides(admin, {'requirepass': password, 'masterauth': password})
         except exception.TroveError:
             LOG.exception('Error enabling authentication for instance.')
             raise
@@ -527,10 +529,10 @@ class RedisApp(service.BaseDbApp):
 
     def disable_root(self):
         try:
+            admin = self.build_admin_client()
             self.configuration_manager.remove_system_override(
                 change_id=SYS_OVERRIDES_AUTH)
-            self.apply_overrides(self.admin,
-                                 {'requirepass': '', 'masterauth': ''})
+            self.apply_overrides(admin,{'requirepass': '', 'masterauth': ''})
         except exception.TroveError:
             LOG.exception('Error disabling authentication for instance.')
             raise
