@@ -51,6 +51,8 @@ class RedisManager(manager.Manager):
     def do_prepare(self, context, packages, databases, memory_mb, users, device_path, mount_point, backup_info,
                    config_contents, root_password, overrides, cluster_config, snapshot, ds_version=None):
         """This is called from prepare in the base class."""
+        operating_system.create_user(system.REDIS_OWNER, system.REDIS_OWNER)
+
         operating_system.ensure_directory(system.REDIS_DATA_DIR,
                                           user=system.REDIS_OWNER,
                                           group=system.REDIS_OWNER,
