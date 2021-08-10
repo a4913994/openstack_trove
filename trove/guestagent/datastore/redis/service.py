@@ -330,7 +330,7 @@ class RedisApp(service.BaseDbApp):
         admin.set_config_command_name(self._mangle_config_command_name())
 
         self.configuration_manager.apply_system_override(
-            {'daemonize': 'yes',
+            {'daemonize': 'no',
              'protected-mode': 'no',
              'supervised': 'systemd',
              'pidfile': system.REDIS_PID_FILE,
