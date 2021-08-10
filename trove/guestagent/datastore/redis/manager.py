@@ -72,7 +72,7 @@ class RedisManager(manager.Manager):
         self.app.apply_initial_guestagent_configuration()
         self.adm = self.app.build_admin_client()
         self.status.set_client(self.adm)
-        
+
         if backup_info:
             self.perform_restore(context, system.REDIS_DATA_DIR, backup_info)
             if not snapshot:
